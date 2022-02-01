@@ -1,7 +1,14 @@
-module bus()
-    wire[31:0] input_wire
-    wire[4:0] output_wire
-    input_wire[0] = R0out
+module bus(
+    encoder_32_5 A();
     
-    encoder_32_5 encoder()
+    reg_32bit R0(clk,clear,r0_enable,buscontents,r0_out);
+    
+    
+    32_1_decoder B();
+
+)
 endmodule
+module datapath(
+
+)
+end datapath
