@@ -1,3 +1,4 @@
+
 module datapath(
     output BusMuxOut [31:0],
     input wire [31:0] i
@@ -29,4 +30,27 @@ module datapath(
     reg_32bit Zlowout(clk, clr, Zhighout_enable, bus_contents, Zlowout_data_out);
     encoder_32_5 ENC(?,i);
     mux_32_to_1 MUX(BusMuxOut,?,?)
+   //MDR I/O
+    input wire clr,
+    input wire Clk,
+    input wire MDRin, 
+    input wire [31:0] MDMux,
+    output reg [31:0] toBus
+
+    //MDR MUX I/O
+     output [word_size] mux_out
+    input [word_size] BusMuxOut
+    input [word_size] Mdatain
+    input [1:0]       Read
+
+    // ALU I/O
+     input [word_size] A,B;
+    input [4:0] ALU_Sel;
+    output [7:0] ALU_Out; //AKA C
+    output CarryOut //carry out flag 
+
+    //simulated control signals coming from Control Unit
+    R0in, R0out; R1in, R1out; ...; R15in, R15out; HIin; HIout; LOin; LOout; PCin, PCout; IRin; 
+    Zin; Zhighout, Zlowout; Yin; MARin; MDRin, MDRout; Read; Mdatain[31..0]
 end datapath
+
