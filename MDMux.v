@@ -1,4 +1,4 @@
-Module MdMux #(parameter word_size =32)(
+Module mux_2_to_1 #(parameter word_size =32)(
     output [word_size] mux_out
     input [word_size] BusMuxOut
     input [word_size] Mdatain
