@@ -1,0 +1,17 @@
+Module MdMux #(parameter word_size =32)(
+    output [word_size] mux_out
+    input [word_size] BusMuxOut
+    input [word_size] Mdatain
+    input [1:0]       Read
+
+); 
+always @ (Read or Mdatain or BusMuxOut or mux_out )
+
+case(Read)
+    0 : mux_out <= BusMuxOut
+    1 : mux_out <= Mdatain
+    end case
+
+    end
+    end module
+

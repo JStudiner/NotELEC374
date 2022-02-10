@@ -1,0 +1,21 @@
+DUT is design under test
+
+make testbench for smaller modules but not all (waste of time)
+
+Large testbench connects all modules 
+
+set initial values of rising edge: always (rising_edge)
+
+Add clock input to all modules that take more than 1 cycle 
+
+for booth 
+- convert function to module with its own input and outputs 
+- connect thoses input outputs to the ALU in datapath
+- have clk input in ALU which controls/allows the booth module to be run once per cycle
+- implememnt a reset signal for the booth module to signal to the ALU the Booth calculation is do`default_nettype 
+- revamp the booth to split up each iteration of forloop to 1 clk cycle
+- make the input for the ALU 32 bits (A,B) 
+- output 64 bits 
+
+
+
