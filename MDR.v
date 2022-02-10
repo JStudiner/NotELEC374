@@ -1,4 +1,4 @@
-module MDR(
+module MDR( 
     input wire clr,
     input wire Clk,
     input wire MDRin, 

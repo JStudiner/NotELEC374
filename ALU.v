@@ -1,108 +1,68 @@
-// and datapath_tb.v file: <This is the filename> 
-`timescale 1ns/10ps 
-module datapath_tb;       
-    reg  PCout, Zlowout, MDRout, R2out, R4out;           // add any other signals to see in your simulation 
-    reg  MARin, Zin, PCin, MDRin, IRin, Yin;    
-    reg   IncPC, Read, AND, R5in, R2in, R4in; 
-    reg  Clock; 
-    reg  [31:0] Mdatain;       
- 
-  parameter   Default = 4’b0000, Reg_load1a = 4’b0001, Reg_load1b = 4’b0010, Reg_load2a = 4’b0011,  
-                             Reg_load2b = 4’b0100, Reg_load3a = 4’b0101, Reg_load3b = 4’b0110, T0 = 4’b0111,  
-                             T1 = 4’b1000, T2 = 4’b1001, T3 = 4’b1010, T4 = 4’b1011, T5 = 4’b1100; 
-    reg   [3:0] Present_state = Default; 
- 
-Datapath DUT(PCout, Zlowout, MDRout, R2out, R4out, MARin, Zin, PCin, MDRin, IRin, Yin, IncPC, Read, AND, R5in, 
-R2in, R4in, Clock, Mdatain); 
- 
-// add test logic here 
-initial  
-    begin 
-       Clock = 0; 
-       forever #10 Clock = ~ Clock; 
-end 
- 
-always @(posedge Clock)  // finite state machine; if clock rising-edge 
-   begin 
-      case (Present_state) 
-   Default   :  Present_state = Reg_load1a; 
-Reg_load1a  :  Present_state = Reg_load1b; 
-  Reg_load1b  :  Present_state = Reg_load2a; 
-Reg_load2a  :  Present_state = Reg_load2b; 
-  Reg_load2b  :  Present_state = Reg_load3a; 
-Reg_load3a  :  Present_state = Reg_load3b; 
-  Reg_load3b  :  Present_state = T0; 
-  T0    :  Present_state = T1; 
-  T1    :  Present_state = T2; 
-  T2    :  Present_state = T3; 
-  T3    :  Present_state = T4; 
-  T4    :  Present_state = T5; 
+module ALU #(parameter word_size =8)(
+    input [word_size] A,B;
+    input [4:0] ALU_Sel;
+    output [7:0] ALU_Out;
+    output CarryOut //carry out flag 
+)
+
+reg [7:0] ALU_Result;
+wire [8:0] temp;
+assign ALU_Out = ALU_Result;
+
+always @(*)
+ begin
+     case(ALU_Sel)
+     0 : ALU_Result <= A + B; // addition
+     1 : ALU_Result <= A - B; // Subtraction
+     2 : ALU_Result <= A / B; // Division
+     3 : ALU_Result <= A & B; // Logical AND
+     4 : ALU_Result <= A | B; // Logical OR
+     5 : ALU_Result <= A ^ B; // Logical XOR
      
-       endcase 
-   end   
-                                                          
-always @(Present_state)  // do the required job in each state 
- 
-12
+     default: ALU_Result = A;
+     endcase
+ end
+
+
+ function int Booth(X,Y );
+   input signed [word_size] X,Y;
+   reg signed [7:0] Z;
+   reg [1:0] temp
+   integer i;
+   reg E1;
+   reg [word_size] Y1;
+
+   always @ (X,Y)
+   begin
+    Z = 8'd0 // Z is set to 8 0 bits
+    E1 = 1'd0 // E1 set to 0 bit
+    for (i =0; i<4; i=i+1)
+    begin 
+       temp = {X[i], E1} // the pair of the right most bit and a zero
+       Y1 = -Y
+    case(temp)
+    2'd2 : Z[7:4] = Z[7:4] + Y1
+    2'd1 : Z[7:4] = Z:[7:4] +Y
+    default : begin end
+    endcase
+
+    Z = Z>>1
+    Z[7] = Z[6];
+    E1 = X[i] // shifts over bit pair being check to the left by 1
+
+   end
+   if (Y == 4'd8)
    begin 
-      case (Present_state)               // assert the required signals in each clock cycle 
-Default: begin 
-    PCout <= 0;   Zlowout <= 0;   MDRout <= 0;          // initialize the signals 
-                             R2out <= 0;   R4out <= 0;   MARin <= 0;   Zin <= 0;   
-                             PCin <=0;   MDRin <= 0;   IRin  <= 0;   Yin <= 0;   
-                             IncPC <= 0;   Read <= 0;   AND <= 0; 
-                R5in <= 0; R2in <= 0; R4in <= 0; Mdatain <= 32’h00000000; 
-end 
-Reg_load1a: begin   
-      Mdatain <= 32’h00000022; 
-      Read = 0; MDRin = 0;                   // the first zero is there for completeness 
-    #10 Read <= 1; MDRin <= 1;   
-    #15 Read <= 0; MDRin <= 0;    
-end 
-              Reg_load1b: begin  
-                             #10 MDRout <= 1; R2in <= 1;   
-                #15 MDRout <= 0; R2in <= 0;     // initialize R2 with the value $22           
-end 
-Reg_load2a: begin   
-      Mdatain <= 32’h00000024; 
-      #10 Read <= 1; MDRin <= 1;   
-    #15 Read <= 0; MDRin <= 0;       
-end 
-              Reg_load2b: begin  
-                            #10 MDRout <= 1; R4in <= 1;   
-               #15 MDRout <= 0; R4in <= 0;  // initialize R4 with the value $24           
-end 
-Reg_load3a: begin   
-      Mdatain <= 32’h00000026; 
-      #10 Read <= 1; MDRin <= 1;   
-    #15 Read <= 0; MDRin <= 0; 
-end 
-              Reg_load3b: begin  
-                            #10 MDRout <= 1; R5in <= 1;   
-               #15 MDRout <= 0; R5in <= 0;  // initialize R5 with the value $26           
-end 
- 
-T0: begin                                                                                  // see if you need to de-assert these signals 
-      PCout <= 1; MARin <= 1; IncPC <= 1; Zin <= 1;   
-end 
-T1: begin 
-      Zlowout <= 1; PCin <= 1; Read <= 1; MDRin <= 1;   
-      Mdatain <= 32’h4A920000;       // opcode for “and R5, R2, R4” 
-end 
-T2: begin 
-      MDRout <= 1; IRin <= 1;    
-end 
- 
-13
-T3: begin 
-      R2out <= 1; Yin <= 1;    
-end 
-T4: begin 
-      R4out <= 1; AND <= 1; Zin <= 1;    
-end 
-T5: begin 
-      Zlowout <= 1; R5in <= 1;    
-end 
-          endcase 
-    end 
-endmodule  
+       Z=-Z
+   end
+
+   end 
+   Booth = Z
+ endfunction
+
+
+
+
+
+    
+endmodule

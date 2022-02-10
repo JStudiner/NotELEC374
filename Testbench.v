@@ -1,4 +1,3 @@
-
 // and datapath_tb.v file: <This is the filename> 
 `timescale 1ns/10ps 
 module datapath_tb;       
