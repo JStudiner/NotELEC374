@@ -1,4 +1,4 @@
-include "./reg_test.v"
+
 module encoder_32_5(
     output reg [4:0] o,
     input wire[31:0] i
