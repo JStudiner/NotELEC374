@@ -1,7 +1,7 @@
 module mux_32_to_1 #(parameter word_size = 32)(
-    output [word_size]   mux_out,
-    input  [word_size]   data_0,data_1,data_2,data_3, data_4,data_5, data_6, data_7,data_8, data_9, data_10, data_11, data_12,data_13, data_14,data_15,data_16,data_17,data_18,data_19,data_20,data_21,data_22, data_23,data_24,data_25, data_26,data_27,data_28, data_29,data_30,data_31,
-    input  [4:0]         select,
+    output [word_size]   mux_out;
+    input  [word_size]   data_0,data_1,data_2,data_3, data_4,data_5, data_6, data_7,data_8, data_9, data_10, data_11, data_12,data_13, data_14,data_15,data_16,data_17,data_18,data_19,data_20,data_21,data_22, data_23,data_24,data_25, data_26,data_27,data_28, data_29,data_30,data_31;
+    input  [4:0]         select;
 );
 
 always @ (mux_out or select or data_0 or data_1 or data_2 or data_3 or data_4 or data_5 or data_6 or data_7
@@ -42,9 +42,9 @@ case(select)
      29 : mux_out <=data_29;
      30 : mux_out <=data_30;
      31 : mux_out <=data_31;
-endcase
+endcase;
 end
-endmodule;
+end module
 
 
 
