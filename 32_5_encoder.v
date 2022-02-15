@@ -1,7 +1,7 @@
 
 module encoder_32_5(
     output reg [4:0] o,
-    input wire[31:0] i
+    input wire i [31:0],
 );
 always @(*)
 case(i)
@@ -30,6 +30,5 @@ case(i)
 32 'h400000: o=5'b10111;
 32 'h800000: o=5'b11000; 
 default: o = 5'b11111;
-
 endcase
-endmodule;
+endmodule
