@@ -10,8 +10,7 @@ always @ (Read or Mdatain or BusMuxOut or mux_out )
 case(Read)
     0 : mux_out <= BusMuxOut
     1 : mux_out <= Mdatain
-    end case
-
-    end
-    end module
+end case
+end
+end module
 
