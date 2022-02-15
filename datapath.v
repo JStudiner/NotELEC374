@@ -1,24 +1,4 @@
 
-    //MDR I/O
-    input wire clr,
-    input wire Clk,
-    input wire MDRin, 
-    input wire [31:0] MDMux,
-    output reg [31:0] toBus
-
-    //MDR MUX I/O
-     output [word_size] mux_out
-    input [word_size] BusMuxOut
-    input [word_size] Mdatain
-    input [1:0]       Read
-
-    // ALU I/O
-     input [word_size] A,B;
-    input [4:0] ALU_Sel;
-    output [7:0] ALU_Out; //AKA C
-    output CarryOut //carry out flag 
-
-=======
 module datapath(
     output bus_contents [31:0],
     input wire [31:0] i
