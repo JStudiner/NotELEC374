@@ -7,6 +7,8 @@ module datapath(
     input wire [4:0] S;
     input wire [31:0] r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
     HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MDR_data_out,MAR_data_out;
+    //make the enable symbols, combine and send to encoder
+    //do the same with the data out symbols but send to the mux
     input wire clr;
     input wire clk;
     reg_32bit R0(clk, clr, r0_enable, bus_contents, r0_data_out); // data out is bus input
