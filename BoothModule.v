@@ -28,7 +28,7 @@ module Booth #(parameter word_size = 32);
     default : begin end
     endcase
 
-    Z = Z>>1
+    Z = Z>>1;
     Z[7] = Z[6];
     E1 = X[i] // shifts over bit pair being check to the left by 1
 
