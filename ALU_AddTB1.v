@@ -5,6 +5,8 @@ reg [4:0] in_c         // select
 wire [7:0] out_res_rc; // Output 
 wire [7:0] Carryout
 
+ALU(in_a, in_b, in_c, out_res_rc, Carryout
+
 initial 
 begin 
 in_a => 5

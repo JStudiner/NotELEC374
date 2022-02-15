@@ -43,9 +43,5 @@ module datapath(
     input wire [1:0] MDRin;
     reg_32_bit MDR(clk,clr,MDRin,MDMUXout,MDR_data_out)
     
-    //simulated control signals coming from Control Unit
-    //are the ins the enables?
-    R0in, R0out; R1in, R1out; ...; R15in, R15out; HIin; HIout; LOin; LOout; PCin, PCout; IRin; 
-    Zin; Zhighout, Zlowout; Yin; MARin; MDRin, MDRout; Read; Mdatain[31..0]
-end datapath
 
+endmodule
