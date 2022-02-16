@@ -2,7 +2,7 @@
 module ALU #(parameter word_size =32)(
     input wire [31:0] A,
     input wire [31:0] B,
-    input wire [4:0] ALU_Sel,
+    input wire [5:0] ALU_Sel,
     output wire [7:0] ALU_Out,
     output wire CarryOut //carry out flag 
 );
