@@ -1,10 +1,10 @@
 
 module ALU #(parameter word_size =32)(
-    input [word_size] A,B,
-    input [4:0] ALU_Sel,
-    output [7:0] ALU_Out,
-
-    output CarryOut //carry out flag 
+    input wire [31:0] A,
+    input wire [31:0] B,
+    input wire [4:0] ALU_Sel,
+    output wire [7:0] ALU_Out,
+    output wire CarryOut //carry out flag 
 );
 
 reg [7:0] ALU_Result;
