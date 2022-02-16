@@ -1,17 +1,44 @@
-module mux_32_to_1 #(parameter word_size = 32)(
-    output [word_size]   mux_out,
-
-    //input wire [word_size]   data_0,data_1,data_2,data_3, data_4,data_5, data_6, data_7,data_8, data_9, data_10, data_11, data_12,data_13, data_14,data_15,data_16,data_17,data_18,data_19,data_20,data_21,data_22.data_23,data_24,data_25, data_26,data_27,data_28, mux_input[28],data_30,data_31
-    input wire [31:0]  mux_input [31:0],
-    input  [4:0]         select
-
+module mux_32_to_1 (
+    output  reg [31:0] mux_out,
+    input  wire  [4:0] select,
+    input wire [31:0] data_0, 
+    input wire [31:0] data_1, 
+    input wire[31:0] data_2,
+     input wire [31:0] data_3 ,
+     input wire [31:0]  data_4 ,
+     input wire [31:0] data_5,
+      input wire [31:0]  data_6,
+      input wire [31:0]  data_7 ,
+      input wire [31:0] data_8, 
+      input wire [31:0]  data_9 ,
+      input wire [31:0]  data_10,
+       input wire [31:0]  data_11, 
+       input wire [31:0]  data_12, 
+       input wire [31:0] data_13 ,
+       input wire [31:0]  data_14, 
+       input wire [31:0] data_15 ,
+       input wire [31:0] data_16 ,
+       input wire [31:0] data_17 ,
+       input wire [31:0] data_18 ,
+       input wire [31:0] data_19 ,
+       input wire [31:0] data_20 ,
+       input wire [31:0] data_21 ,
+       input wire [31:0] data_22,
+       input wire [31:0] data_24 ,
+       input wire [31:0] data_25 ,
+       input wire [31:0]  data_26, 
+       input wire [31:0] data_27 ,
+       input wire [31:0] data_28 ,
+       input wire [31:0] data_29 ,
+       input wire [31:0] data_30 ,
+       input wire [31:0] data_31 ,
+       input wire [31:0] data_23
 );
 
-/*always @ (mux_out or select or mux_input[0] or mux_input[1] or mux_input[2] or mux_input[3] or mux_input[4] or mux_input[2] or mux_input[5] or mux_input[6]
- or mux_input[7] or mux_input[8] or mux_input[9] or mux_input[10] or mux_input[11]  or mux_input[12] or mux_input[13] or mux_input[14] or data_16 or data_17 or data_18
-  or data_19 or data_20 or data_21 or data_22 or data_23 or data_24 or data_25 or data_26 or data_27 or mux_input[22]or mux_input[28]
-   or data_30 or data_31)
-
+always @ (select or data_0 or data_1 or data_2 or data_3 or  data_4 or data_5 
+or  data_6 or  data_7 or data_8 or  data_9 or data_10 or data_11 or data_12 or data_13 or data_14 or data_15 
+or data_16 or data_17 or data_18 or data_19 or data_20 or data_21 or data_22 or data_23 or data_24 or data_25 
+or data_26 or data_27 or data_28 or data_29 or data_30 or data_31)
 begin
 case(select)
      0 : mux_out <=data_0;
@@ -48,9 +75,8 @@ case(select)
      31 : mux_out <=data_31;
 endcase
 end
-endmodule;
-=======
-*/
+endmodule
+/*
 always @ (mux_out or select or mux_input[0] or mux_input[1] or mux_input[2] or mux_input[3] or mux_input[4] or mux_input[5] or mux_input[6]
  or mux_input[7] or mux_input[8] or mux_input[9] or mux_input[10] or mux_input[11]  or mux_input[12] or mux_input[13] or mux_input[14] or mux_input[15] or mux_input[16] or mux_input[17]
   or mux_input[18] or mux_input[19] or mux_input[20] or mux_input[21] or mux_input[22] or mux_input[23] or mux_input[24] or mux_input[25] or mux_input[26] or mux_input[27] or mux_input[28]
@@ -90,7 +116,6 @@ case(select)
      30 : mux_out <=mux_input[30];
      31 : mux_out <=mux_input[31];
 endcase
-end
 endmodule
 
 
@@ -98,3 +123,4 @@ endmodule
 
 //assign mux_out = select ? data_1 : data_0
 
+*/
