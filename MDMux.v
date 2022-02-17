@@ -1,17 +1,17 @@
 module mux_2_to_1 #(parameter word_size =32)(
-    output reg [31:0] mux_out,
+    output wire [31:0] mux_out,
     input wire [31:0] BusMuxOut,
     input wire [31:0] Mdatain,
-    input wire [1:0]  Read
+    input wire  Read
 
 ); 
-always @ (Read or Mdatain or BusMuxOut or mux_out )
+reg[31:0] temp;
+assign mux_out=temp;
+always @ (Read)
 begin
-
 case(Read)
-
-    0 : mux_out <= BusMuxOut;
-    1 : mux_out <= Mdatain;
+    0 : temp <= BusMuxOut;
+    1 : temp <= Mdatain;
 endcase
 
     end

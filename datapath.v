@@ -1,29 +1,36 @@
-
+/*
+bus_contents,MDR_data_out,r0_data_out,r1_data_out,r2_data_out,
+      r3_data_out,r4_data_out,r5_data_out,r6_data_out,
+      r7_data_out,r8_data_out,r9_data_out,r10_data_out, 
+      r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
+    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,
+    IR_data_out,MAR_data_out,Y_data_out,i,Clock,ALU_Sel,Mdatain,Read,clr
+*/
 module datapath(
-    output  [31:0] bus_contents,
-    input wire [31:0] r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
-    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MDR_data_out,MAR_data_out,Y_data_out,
+    output wire [31:0] bus_contents,
+    input  [31:0]MDR_data_out,
+    input  wire[31:0] r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,
+    r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
+    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MAR_data_out,Y_data_out,
     input wire [31:0] i,
-    input wire clock,
+    input wire clk,
     input wire [5:0] ALU_Sel,
-    input wire [31:0] mdatain
+    input wire [31:0] Mdatain,
+    input wire read,
+    input wire clr
 );
-    reg [31:0] enc_input;
+    reg [31:0] MDR_Out;
     wire [4:0] S;
+    reg [31:0] enc_input;
     encoder_32_5 ENC(S,enc_input);
     //mux stuff
     mux_32_to_1 MUX(bus_contents,S,r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
-    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MDR_data_out,MAR_data_out,Y_data_out);
+    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MDR_data_out,MAR_data_out,Y_data_out,clk);
     //MDR stuff
     wire [31:0] MdMUXout;
-    wire [1:0] read;
     mux_2_to_1 MDMUX(MdMUXout,bus_contents,Mdatain,read);
-    wire [1:0] MDRin;
-    reg_32_bit MDR(clk,clr,MDRin,MDMUXout,MDR_data_out);
-    //ALU Stuff
-    wire clr;
-    wire clk;
-
+     reg MDR_enable;
+    reg_32bit MDR(clk,clr,MDR_enable,MdMUXout,MDR_data_out);
     reg r0_enable; 
     reg r1_enable; 
     reg r2_enable;
@@ -46,7 +53,6 @@ module datapath(
     reg Zlow_enable;
     reg PC_enable;
     reg IR_enable;
-    reg MDR_enable;
     reg MAR_enable;
     reg Y_enable;
     reg_32bit R0(clk, clr, r0_enable, bus_contents, r0_data_out); // data out is bus input
@@ -68,21 +74,16 @@ module datapath(
     reg_32bit HI(clk, clr, HI_enable, bus_contents, HI_data_out);
     reg_32bit LO(clk, clr, LO_enable, bus_contents, LO_data_out);
     reg_32bit Zhigh(clk, clr, Zhigh_enable, bus_contents, Zhigh_data_out);
-    reg_32bit Zlow(clk, clr, Zhigh_enable, bus_contents, Zlow_data_out);
+    reg_32bit Zlow(clk, clr, Zlow_enable, bus_contents, Zlow_data_out);
     reg_32bit PC(clk, clr, PC_enable, bus_contents, PC_data_out);
     reg_32bit IR(clk, clr,IR_enable, bus_contents, IR_data_out);
     reg_32bit MAR(clk, clr, MAR_enable, bus_contents, MAR_data_out);
     reg_32bit Y(clk, clr, Y_enable, bus_contents, Y_data_out);
     //ALU stuff
-    wire [7:0] ALU_out;
     wire ALU_carry_out;
-    ALU alu(Y_data_out,bus_contents,ALU_Sel,ALU_Out,ALU_carry_out);
-    always @(r0_enable or r1_enable or r2_enable or r4_enable or 
-    r5_enable or r6_enable or r7_enable or r8_enable or r9_enable or r10_enable or r11_enable or r12_enable or r13_enable or r14_enable or
-    r15_enable or HI_enable or LO_enable or Zhigh_enable or Zlow_enable or PC_enable or IR_enable or
-    MDR_enable or MAR_enable or Y_enable or)
-    begin
-        
+    ALU alu(Y_data_out,bus_contents,ALU_Sel,Zlow_data_out,Zhigh_data_out,ALU_carry_out);
+    always @(i)
+    begin   
     r0_enable<=i[0];
     r1_enable<=i[1];
     r2_enable<=i[2];
@@ -91,7 +92,7 @@ module datapath(
     r5_enable<=i[5];
     r6_enable <= i[6];
     r7_enable <= i[7];
-			r8_enable <= i[8];
+	r8_enable <= i[8];
 	 r9_enable <= i[9];
     r10_enable <= i[10];
 	 r11_enable <= i[11];
@@ -133,6 +134,13 @@ module datapath(
     enc_input[22] <= MDR_enable;
     enc_input[23] <= MAR_enable;
     enc_input[24] <= Y_enable;
+    enc_input[25]<=0;
+    enc_input[26]<=0;
+    enc_input[27]<=0;
+    enc_input[28]<=0;
+    enc_input[29]<=0;
+    enc_input[30]<=0;
+    enc_input[31]<=0;
     end
 endmodule
      

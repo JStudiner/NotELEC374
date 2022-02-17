@@ -8,7 +8,7 @@ module reg_32bit(
     input wire [31:0] d,
     output reg [31:0] q
 );
-    always@(posedge clk or negedge clr) begin
+    always@(posedge clk or posedge clr) begin
         if (clr) begin
             q[31:0] <= 32'b0;
         end

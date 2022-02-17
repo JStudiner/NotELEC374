@@ -36,11 +36,9 @@ Reg_load3a  :  Present_state = Reg_load3b;
   T1    :  Present_state = T2; 
   T2    :  Present_state = T3; 
   T3    :  Present_state = T4; 
-  T4    :  Present_state = T5; 
-     
+  T4    :  Present_state = T5;   
        endcase 
-   end   
-                                                          
+   end                                                            
 always @(Present_state)  // do the required job in each state 
  
 12
