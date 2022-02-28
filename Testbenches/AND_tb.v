@@ -5,40 +5,12 @@ module AND_tb(
       output reg B
 ); 
       //define the initial values to be passed into the datapath      
-    reg flag;
-    reg  [31:0] buscontents; 
-    reg[31:0] MDR_data_out_t;  
-    wire[31:0] MDR_data_out;        // add any other signals to see in your simulation 
+    reg [2:0]flag;
+    wire  [31:0] buscontents; 
+    wire [31:0] MDR_data_out;          // add any other signals to see in your simulation 
     reg  [31:0] i;    
-    reg  [31:0]r0_data_out_t,r1_data_out_t,r2_data_out_t,r3_data_out_t,r4_data_out_t,r5_data_out_t,r6_data_out_t,r7_data_out_t,r8_data_out_t,r9_data_out_t,r10_data_out_t, r11_data_out_t,r12_data_out_t,r13_data_out_t,r14_data_out_t,r15_data_out_t,
-    HI_data_out_t,LO_data_out_t,Zhigh_data_out_t,Zlow_data_out_t,PC_data_out_t,IR_data_out_t,MAR_data_out_t,Y_data_out_t; 
     wire [31:0]r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
     HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MAR_data_out,Y_data_out; 
-    assign r0_data_out=r0_data_out_t;
-  assign r1_data_out=r1_data_out_t;
-  assign r2_data_out=r2_data_out_t;
-  assign r3_data_out=r3_data_out_t;
-  assign r4_data_out=r4_data_out_t;
-  assign r5_data_out=r5_data_out_t;
-  assign r6_data_out=r6_data_out_t;
-  assign r7_data_out=r7_data_out_t;
-  assign r8_data_out=r8_data_out_t;
-  assign r9_data_out=r9_data_out_t;
-  assign r10_data_out=r10_data_out_t;
-  assign  r11_data_out=r11_data_out_t;
-  assign r12_data_out=r12_data_out_t;
-  assign r13_data_out=r13_data_out_t;
-  assign r14_data_out=r14_data_out_t;
-  assign r15_data_out=r15_data_out_t;
-  assign HI_data_out=HI_data_out_t;
-      assign LO_data_out=LO_data_out_t;   
-assign Zhigh_data_out=Zhigh_data_out_t;   
-assign Zlow_data_out=Zlow_data_out_t;   
-assign PC_data_out=PC_data_out_t;   
-assign IR_data_out=IR_data_out_t;   
-//assign MAR_data_out=MAR_data_out_t;   
-assign Y_data_out=Y_data_out_t;
-assign MDR_data_out=MDR_data_out_t;
     reg IncPC;
     reg Clock; 
     reg Read;
@@ -60,7 +32,7 @@ assign MDR_data_out=MDR_data_out_t;
 initial  
     begin 
        Clock = 0; 
-       flag=0;
+       flag=1;
 end 
 always
       begin
@@ -70,7 +42,7 @@ always
 //always
      // #10 Clock = ~ Clock; 
 always @(posedge Clock)  // finite state machine; if clock rising-edge 
-if (flag%4==0)
+if(flag==3)
    begin 
       case (Present_state) 
 
@@ -88,12 +60,11 @@ if (flag%4==0)
    T4    :  Present_state = T5; 
      
        endcase 
-      flag=2;
-   end   
-else
-begin
-      flag=flag+1;
-end                                                
+       flag<=0;
+   end  
+else begin
+      flag<=flag+1; 
+end                                         
 always @(Present_state)  // do the required job in each state 
 begin 
 case (Present_state)               // assert the required signals in each clock cycle 
@@ -101,12 +72,6 @@ Default: begin
 //codes we need to find MARin, MDRin,IR,Yin, Read?,R5in,r2in,r4in,mdatain
 //codes we need to find MARin, MDRin,IR,Yin, Read?,R5in,r2in,r4in,mdatain 23,22,21,24,5,2,4
       clr<=0;
-    //PC_data_out_t <= 0;   
-    //Zlow_data_out_t <= 0;   
-    //MDR_data_out_t <= 0;       
-    //r2_data_out_t <= 0;  
-    //r4_data_out_t <= 0; 
-    //need to set the other initial enables to 0
     i[0] <=0;
     i[1] <=0;
     i[30] <=0;
@@ -146,54 +111,81 @@ Default: begin
 end 
 Reg_load1a: begin   
       
-      Mdatain <= 32'h00000022; 
-      Read = 0;  i[22] = 0;                   // the first zero is there for completeness 
-    #10 Read <= 1;  i[22] <= 1;   
-    #15 Read <= 0;  i[22] <= 0;    
+Mdatain <= 32'h00000022; 
+Read = 0;  i[22] = 0;  
+#20
+Read <= 1;  i[22] <= 1;                   
+#60 Read <= 0;  i[22] <= 0;    
 end 
 Reg_load1b: begin   
-      #10 MDR_data_out_t <= 1;  i[2] <= 1;   
-      #15 MDR_data_out_t <= 0;  i[2] <= 0;     // initialize R2 with the value $22           
+      
+    #10i[2]<= 1; 
+    #30i[2]<=0;  
+    
+
 end 
 Reg_load2a: begin   
       Mdatain <= 32'h00000024; 
-      #10 Read <= 1; i[22] <= 1;   
-    #15 Read <= 0; i[22] <= 0;       
+      #20 Read <= 1; i[22] <= 1;   
+    #60Read <= 0; i[22] <= 0;       
 end 
 Reg_load2b: begin  
-      #10 MDR_data_out_t <= 1; i[4] <= 1;   
-      #15 MDR_data_out_t <= 0; i[4] <= 0;  // initialize R4 with the value $24           
+      #10  i[4] <= 1;   
+      #30  i[4] <= 0;  // initialize R4 with the value $24           
 end 
 Reg_load3a: begin   
       Mdatain <= 32'h00000026; 
-      #10 Read <= 1; i[22] <= 1;   
-    #15 Read <= 0; i[22] <= 0; 
+      #20 Read <= 1; i[22] <= 1;   
+    #60 Read <= 0; i[22] <= 0; 
 end 
 Reg_load3b: begin  
-      #10 MDR_data_out_t <= 1;  i[5] <= 1;   
-      #15 MDR_data_out_t <= 0; i[5] <= 0;  // initialize R5 with the value $26           
+      #10 i[5] <= 1;   
+      #30  i[5] <= 0;  // initialize R5 with the value $26           
 end 
  
 T0: begin                                                                                  // see if you need to de-assert these signals 
-      PC_data_out_t <= 1; i[23] <= 1; IncPC <= 1;  i[19] <= 1;   
+      #10 i[23] <= 1; IncPC <= 1;
+      #30 i[23]<=0;  i[20] <= 1;
+      
 end 
 T1: begin 
-      Zlow_data_out_t <= 0;  i[20] <= 1; Read <= 1; i[22] <= 1;   
-      Mdatain <= 32'h4A920000;       // opcode for “and R5, R2, R4” 
-end 
+       Mdatain <= 32'h4A920000;
+       #20 i[20]<=0;  i[22]<=1;
+       Read<=1; 
+       #60 Read <= 0;
+       i[22]<=0;
+      
+      
+      
+       
+end   
 T2: begin 
-      MDR_data_out_t <= 1; i[21] <= 1;    
+       #10 i[21] <= 1;   
+      #30 i[21]<=0; 
 end 
  
 T3: begin 
-      //r2_data_out_t <= 1;
-       i[24] <= 1;   
+      #10  i[2]<=1;
+      #60 i[2]<=0; 
+      
+       
 end 
-T4: begin 
-      r4_data_out_t <= 1; ALU_Sel <= 3; i[19] <= 1;    
+T4: begin
+     #10
+       i[24]<=1;
+      #30
+      i[24]<=0;
+      ALU_Sel<=3;
+      i[19]<=1;
+      
+     //i[19] <= 1;  
 end 
 T5: begin 
-      Zlow_data_out_t <= 2; i[5] <= 1;    
+      #20
+      i[19]<=0;
+      i[5]<=1;
+      #60
+      i[5] <= 0;   
 end 
 endcase 
 end 

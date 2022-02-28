@@ -3,7 +3,6 @@ module mux_2_to_1 #(parameter word_size =32)(
     input wire [31:0] BusMuxOut,
     input wire [31:0] Mdatain,
     input wire  Read
-
 ); 
 reg[31:0] temp;
 assign mux_out=temp;

@@ -1,5 +1,5 @@
 module mux_32_to_1 (
-    output  wire [31:0] bus_contents,
+    output  reg [31:0] bus_contents,
     input  wire  [4:0] select,
     input wire [31:0] data_0, 
     input wire [31:0] data_1, 
@@ -8,9 +8,9 @@ module mux_32_to_1 (
      input wire [31:0]  data_4 ,
      input wire [31:0] data_5,
       input wire [31:0]  data_6,
-      input wire [31:0]  data_7 ,
+      input wire [31:0]  data_7,
       input wire [31:0] data_8, 
-      input wire [31:0]  data_9 ,
+      input wire [31:0]  data_9,
       input wire [31:0]  data_10,
        input wire [31:0]  data_11, 
        input wire [31:0]  data_12, 
@@ -28,38 +28,37 @@ module mux_32_to_1 (
        input wire [31:0] data_24 ,
        input wire clk
 );
-reg [31:0] mux_out;
-assign bus_contents=mux_out;
 
-always @ (select)
+
+always @ (posedge clk)
 begin
 case(select)
-     1 : mux_out <=data_0;
-     2 : mux_out <=data_1;
-     3 : mux_out <=data_2;
-     4 : mux_out <=data_3;
-     5 : mux_out <=data_4;
-     6 : mux_out <=data_5;
-     7 : mux_out <=data_6;
-     8 : mux_out <=data_7;
-     9 : mux_out <=data_8;
-     10 : mux_out <=data_9;
-     11 : mux_out <=data_10;
-     12 : mux_out <=data_11;
-     13 : mux_out <=data_12;
-     14 : mux_out <=data_13;
-     15 : mux_out <=data_14;
-     16 : mux_out <=data_15;
-     17 : mux_out <=data_16;
-     18 : mux_out <=data_17;
-     19 : mux_out <=data_18;
-     20 : mux_out <=data_19;
-     21 : mux_out <=data_20;
-     22 : mux_out <=data_21;
-     23 : mux_out <=data_22;
-     24 : mux_out <=data_23;
-     25: mux_out <=data_24;
-     31: mux_out<=3;
+     1 : bus_contents <=data_0;
+     3: bus_contents <=data_1;
+     2 : bus_contents <=data_2;
+     4 : bus_contents <=data_3;
+     5 : bus_contents <=data_4;
+     6 : bus_contents <=data_5;
+     7 : bus_contents <=data_6;
+     8 : bus_contents <=data_7;
+     9 : bus_contents <=data_8;
+     10 : bus_contents <=data_9;
+     11 : bus_contents <=data_10;
+     12 : bus_contents <=data_11;
+     13 : bus_contents <=data_12;
+     14 : bus_contents <=data_13;
+     15 : bus_contents <=data_14;
+     16 : bus_contents <=data_15;
+     17 : bus_contents <=data_16;
+     18 : bus_contents <=data_17;
+     19 : bus_contents <=data_18;
+     20 : bus_contents <=data_19;
+     21 : bus_contents <=data_20;
+     22 : bus_contents <=data_21;
+     23 : bus_contents <=data_22;
+     24 : bus_contents <=data_23;
+     25: bus_contents <=data_24;
+     default: bus_contents<=6'hFFFFFF;
      //default: mux_out<=6969;
 endcase
 end

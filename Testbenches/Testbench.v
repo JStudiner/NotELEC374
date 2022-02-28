@@ -57,7 +57,7 @@ Reg_load1a: begin
     #10 Read <= 1; MDRin <= 1;   
     #15 Read <= 0; MDRin <= 0;    
 end 
-              Reg_load1b: begin  
+Reg_load1b: begin  
                              #10 MDRout <= 1; R2in <= 1;   
                 #15 MDRout <= 0; R2in <= 0;     // initialize R2 with the value $22           
 end 
