@@ -8,15 +8,15 @@ module Booth #(parameter word_size = 32)(
    integer i;
    reg E1;
    reg [word_size:0] Y1;
-  reg [7:0] Booth;
+   reg [7:0] Booth;
    always @ (X,Y)
-  begin
+   begin
     Z = 8'd0; // Z is set to 8 0 bits
     E1 <= 1'd0; // E1 set to 0 bit
     for (i =0; i<4; i=i+1);
-   end
+    end
     always@(posedge clk or negedge clr)
-  begin 
+    begin 
        temp = {X[i], E1}; // the pair of the right most bit and a zero
        Y1 = -Y;
     case(temp)
@@ -27,12 +27,12 @@ module Booth #(parameter word_size = 32)(
     Z = Z>>1;
     Z[7] = Z[6];
     E1 = X[i]; // shifts over bit pair being check to the left by 1
-   if (Y == 4'd8)
-   begin 
+    if (Y == 4'd8)
+    begin 
        Z=-Z;
-   end
-   Booth = Z;
-  end
+    end
+    Booth = Z;
+    end
 endmodule
  /*function int Booth(X,Y );
    input signed [word_size] X,Y;

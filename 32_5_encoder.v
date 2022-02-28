@@ -1,9 +1,10 @@
 
 module encoder_32_5(
     output reg [4:0] S,
-    input wire [31:0] i 
+    input wire [31:0] i,
+    input wire clk
 );
-always @(i)
+always @(posedge clk)
 case(i)
 32'h01: S<=5'b00000;
 32'h02: S<=5'b00001;
@@ -29,6 +30,7 @@ case(i)
 32 'h200000: S<=5'b10110;
 32 'h400000: S<=5'b10111;
 32 'h800000: S<=5'b11000; 
-default: S<= 5'b11111;
+32 'h1000000: S<=5'b11001;
+default: S<=5'b11111;
 endcase
 endmodule

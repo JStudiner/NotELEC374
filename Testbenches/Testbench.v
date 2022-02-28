@@ -36,11 +36,9 @@ Reg_load3a  :  Present_state = Reg_load3b;
   T1    :  Present_state = T2; 
   T2    :  Present_state = T3; 
   T3    :  Present_state = T4; 
-  T4    :  Present_state = T5; 
-     
+  T4    :  Present_state = T5;   
        endcase 
-   end   
-                                                          
+   end                                                            
 always @(Present_state)  // do the required job in each state 
  
 12
@@ -59,7 +57,7 @@ Reg_load1a: begin
     #10 Read <= 1; MDRin <= 1;   
     #15 Read <= 0; MDRin <= 0;    
 end 
-              Reg_load1b: begin  
+Reg_load1b: begin  
                              #10 MDRout <= 1; R2in <= 1;   
                 #15 MDRout <= 0; R2in <= 0;     // initialize R2 with the value $22           
 end 
