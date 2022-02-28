@@ -20,6 +20,7 @@ always @(*)
      3 : ALU_Result <= A & B; // Logical AND
      4 : ALU_Result <= A | B; // Logical OR
      5 : ALU_Result <= A ^ B; // Logical XOR
+     6 : BoothModule(A,B, clk, clr, ALU_Result) 
      
      
      default: ALU_Result = A;

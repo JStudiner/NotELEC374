@@ -1,7 +1,7 @@
 module Booth #(parameter word_size = 32)(
   input signed [word_size:0] X,Y,
   input wire clk,
-  input wire clr,
+  //input wire clr,
   output reg [7:0] Z
 );
    reg [1:0] temp;
@@ -31,9 +31,11 @@ module Booth #(parameter word_size = 32)(
    begin 
        Z=-Z;
    end
-   Booth = Z;
   end
 endmodule
+
+
+
  /*function int Booth(X,Y );
    input signed [word_size] X,Y;
    reg signed [7:0] Z;
