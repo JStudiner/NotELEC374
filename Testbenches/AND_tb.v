@@ -18,7 +18,7 @@ module AND_tb(
     reg clr;
     reg [4:0] ALU_Sel;
     reg [31:0] Mdatain;
-  parameter   Default = 4'b00000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,  
+    parameter   Default = 4'b00000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,  
                              Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,  
                              T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
 
@@ -139,7 +139,7 @@ end
 
 T0: begin                                                                                  // see if you need to de-assert these signals 
       IncPC<=1;
-      #15
+      #20
       IncPC<=0;
 
 end

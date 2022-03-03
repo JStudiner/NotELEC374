@@ -47,7 +47,7 @@ module datapath(
     reg_32bit R4(clk, clr, reg_enable[4], bus_contents, r4_data_out);
     reg_32bit R5(clk, clr, reg_enable[5], bus_contents, r5_data_out);
     reg_32bit R6(clk, clr, reg_enable[6], bus_contents, r6_data_out);
-    reg_32bit R7(clk, clr, reg_enable[7], bus_contents, r7_data_ out);
+    reg_32bit R7(clk, clr, reg_enable[7], bus_contents, r7_data_out);
     reg_32bit R8(clk, clr, reg_enable[8], bus_contents, r8_data_out);
     reg_32bit R9(clk, clr, reg_enable[9], bus_contents, r9_data_out);
     reg_32bit R10(clk, clr, reg_enable[10], bus_contents, r10_data_out);
