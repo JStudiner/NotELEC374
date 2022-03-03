@@ -1,28 +1,34 @@
-module Booth_TB(
-input wire X,Y
-//input wire clk,
-//output reg Z
-); 
-reg [7:0] in_X;
-reg [7:0] in_Y;  //X and Y
-reg clk;
-wire [7:0] Z; // Output 
+module BoothTB(
+input wire M,
+output reg N
+);
 
 
-initial begin 
-    forever begin
-    clk = 0;
-    #10 clk = ~clk;
- end end
 
-ALU test(in_a, in_b, in_c, out_res_rc, Carryout);
-always@(posedge clk)
+    // Inputs
+    reg [15:0] A;
+    reg [15:0] B;
+	 reg clk1;
 
+    wire [31:0] C;
+	 
+	 initial 
 begin
-    in_X <= 5;
-    in_Y <= 2;
-    
+       clk1 = 0;  
 end
+always
+#10 clk1 = ~ clk1; 
 
- 
-endmodule 
+    // Instantiate the Unit Under Test (UUT)
+    Booth uut(A,B,C,clk1);
+	
+    initial begin
+        // Initialize Inputs
+        
+        A= 5;
+        B= 7;
+
+    end
+      
+endmodule
+
