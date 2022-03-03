@@ -28,7 +28,7 @@ module AND_tb(
       r7_data_out,r8_data_out,r9_data_out,r10_data_out, 
       r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
     HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,
-    IR_data_out,MAR_data_out,Y_data_out,i,Clock,ALU_Sel,Mdatain,Read,clr,reg_enable); 
+    IR_data_out,MAR_data_out,Y_data_out,i,Clock,ALU_Sel,Mdatain,Read,clr,reg_enable,IncPC); 
 
 // add test logic here 
 initial  
@@ -139,6 +139,9 @@ end
 
 T0: begin                                                                                  // see if you need to de-assert these signals 
       IncPC<=1;
+      #15
+      IncPC<=0;
+
 end
 
 T1: begin 
@@ -187,8 +190,6 @@ T5: begin
       #40
       ALU_Sel<=7;
       i[19]<=0;
-      
-      
       reg_enable[5]<=1;
       #30
       reg_enable[5]<=0;
