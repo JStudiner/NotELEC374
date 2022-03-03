@@ -25,7 +25,6 @@ module mux_32_to_1 (
        input wire [31:0] data_21 ,
        input wire [31:0] data_22,
        input wire [31:0] data_23,
-       input wire [31:0] data_24 ,
        input wire clk
 );
 
@@ -33,32 +32,31 @@ module mux_32_to_1 (
 always @ (posedge clk)
 begin
 case(select)
-     1 : bus_contents <=data_0;
-     3: bus_contents <=data_1;
+     0 : bus_contents <=data_0;
+     1: bus_contents <=data_1;
      2 : bus_contents <=data_2;
-     4 : bus_contents <=data_3;
-     5 : bus_contents <=data_4;
-     6 : bus_contents <=data_5;
-     7 : bus_contents <=data_6;
-     8 : bus_contents <=data_7;
-     9 : bus_contents <=data_8;
-     10 : bus_contents <=data_9;
-     11 : bus_contents <=data_10;
-     12 : bus_contents <=data_11;
-     13 : bus_contents <=data_12;
-     14 : bus_contents <=data_13;
-     15 : bus_contents <=data_14;
-     16 : bus_contents <=data_15;
-     17 : bus_contents <=data_16;
-     18 : bus_contents <=data_17;
-     19 : bus_contents <=data_18;
-     20 : bus_contents <=data_19;
-     21 : bus_contents <=data_20;
-     22 : bus_contents <=data_21;
-     23 : bus_contents <=data_22;
-     24 : bus_contents <=data_23;
-     25: bus_contents <=data_24;
-     default: bus_contents<=6'hFFFFFF;
+     3 : bus_contents <=data_3;
+     4 : bus_contents <=data_4;
+     5 : bus_contents <=data_5;
+     6 : bus_contents <=data_6;
+     7 : bus_contents <=data_7;
+     8 : bus_contents <=data_8;
+     9 : bus_contents <=data_9;
+     10 : bus_contents <=data_10;
+     11 : bus_contents <=data_11;
+     12 : bus_contents <=data_12;
+     13 : bus_contents <=data_13;
+     14 : bus_contents <=data_14;
+     15 : bus_contents <=data_15;
+     16 : bus_contents <=data_16;
+     17 : bus_contents <=data_17;
+     18 : bus_contents <=data_18;
+     19 : bus_contents <=data_19;
+     20 : bus_contents <=data_20;
+     21 : bus_contents <=data_21;
+     22 : bus_contents <=data_22;
+     23 : bus_contents <=data_23;
+     default: begin end
      //default: mux_out<=6969;
 endcase
 end
