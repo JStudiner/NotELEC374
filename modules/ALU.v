@@ -1,4 +1,3 @@
-
 module ALU #(parameter word_size =32)(
     input wire [31:0] A,
     input wire [31:0] B,

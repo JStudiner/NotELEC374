@@ -21,7 +21,6 @@ module mux_32_to_1 (
        input wire [31:0] data_17 ,
        input wire [31:0] data_18 ,
        input wire [31:0] data_19 ,
-       input wire [31:0] data_20 ,
        input wire [31:0] data_21 ,
        input wire [31:0] data_22,
        input wire [31:0] data_23,
@@ -52,7 +51,6 @@ case(select)
      17 : bus_contents <=data_17;
      18 : bus_contents <=data_18;
      19 : bus_contents <=data_19;
-     20 : bus_contents <=data_20;
      21 : bus_contents <=data_21;
      22 : bus_contents <=data_22;
      23 : bus_contents <=data_23;

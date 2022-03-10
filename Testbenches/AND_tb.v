@@ -7,11 +7,8 @@ module AND_tb(
       //define the initial values to be passed into the datapath      
     reg [2:0]flag;
     wire  [31:0] bus_contents; 
-    wire [31:0] MDR_data_out;          // add any other signals to see in your simulation 
-    reg  [31:0] i;
-    reg [31:0] reg_enable;
-    wire [31:0]r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
-    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MAR_data_out,Y_data_out; 
+    reg  [31:0] i; //encoder inputs
+    reg [31:0] reg_enable; //register enable inputs
     reg IncPC;
     reg Clock; 
     reg Read;
@@ -23,12 +20,7 @@ module AND_tb(
                              T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
 
     reg   [3:0] Present_state = Default; 
-      datapath DUT(bus_contents,MDR_data_out,r0_data_out,r1_data_out,r2_data_out,
-      r3_data_out,r4_data_out,r5_data_out,r6_data_out,
-      r7_data_out,r8_data_out,r9_data_out,r10_data_out, 
-      r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
-    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,
-    IR_data_out,MAR_data_out,Y_data_out,i,Clock,ALU_Sel,Mdatain,Read,clr,reg_enable,IncPC); 
+      datapath DUT(bus_contents,i,Clock,ALU_Sel,Mdatain,Read,clr,reg_enable,IncPC); 
 
 // add test logic here 
 initial  
@@ -47,7 +39,6 @@ always @(posedge Clock)  // finite state machine; if clock rising-edge
 if(flag==3)
    begin 
       case (Present_state) 
-
    Default:Present_state = Reg_load1a; 
    Reg_load1a:Present_state = Reg_load1b; 
    Reg_load1b  :  Present_state = Reg_load2a; 
@@ -81,15 +72,14 @@ i[23] <=0; //MARin
     //i[2] <=0; //r2in
     //i[4] <=0;  //r4in
     //i[19]<=0; //ZLowin 
-   i<=0;
-   reg_enable<=0;
+    i<=0;
+    reg_enable<=0;
     IncPC <= 0;   
     Read <= 0;   
     ALU_Sel <= 7; 
     Mdatain <= 32'h00000000; 
 end 
 Reg_load1a: begin   
-      
 Mdatain <= 32'h00000022; 
 Read = 0;  reg_enable[22] = 0;  
 #10
@@ -101,24 +91,19 @@ Reg_load1b: begin
     #40
     i[22]<=0; 
     reg_enable[2]<=1;
-     
     #15
     reg_enable[2]<=0; 
-    
-
 end 
-
 Reg_load2a: begin   
       Mdatain <= 32'h00000024; 
       #10 Read <= 1; reg_enable[22] <= 1;   
     #15 Read <= 0; reg_enable[22] <= 0;       
 end 
 Reg_load2b: begin  
-         i[22]<=1;
+    i[22]<=1;
     #40
     i[22]<=0; 
     reg_enable[4]<=1;
-     
     #15
     reg_enable[4]<=0;   // initialize R4 with the value $24           
 end 
@@ -132,7 +117,6 @@ Reg_load3b: begin
     #40
     i[22]<=0; 
     reg_enable[5]<=1;
-     
     #15
     reg_enable[5]<=0;   // initialize R4 with the value $24   // initialize R5 with the value $26           
 end 
@@ -141,7 +125,6 @@ T0: begin                                                                       
       IncPC<=1;
       #20
       IncPC<=0;
-
 end
 
 T1: begin 
@@ -162,14 +145,10 @@ end
  
 T3: begin 
       i[2]<=1; 
-     
       #40 i[2]<=0; 
        reg_enable[24]<=1;
        #15
       reg_enable[24]<=0;
-      
-      
-       
 end
 
 T4: begin
@@ -179,10 +158,8 @@ T4: begin
       #20
       ALU_Sel<=3;
       reg_enable[19]<=1;
-
       #15
       reg_enable[19]<=0;
-     //i[19] <= 1;  
 end 
 
 T5: begin 
