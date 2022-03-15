@@ -6,15 +6,16 @@ module encoder_32_5(
     input wire clk
 );
 always @(posedge clk)
+begin
 case(i)
 32 'h10000: S<=5'b10000;
 32 'h20000: S<=5'b10001;
 32 'h40000: S<=5'b10010;
 32 'h80000: S<=5'b10011;
-32 'h100000: S<=5'b10100;
 32 'h200000: S<=5'b10101;
 32 'h400000: S<=5'b10110;
-32 'h800000: S<=5'b10111; 
+32 'h800000: S<=5'b10111;
+32 'h2000000: S<=5'b11001;
 default: begin end
 endcase
 case(RegIn)
@@ -35,4 +36,6 @@ case(RegIn)
 32'h4000: S<=5'b01110;
 32'h8000: S<=5'b01111;
 default: begin end
+endcase
+end
 endmodule

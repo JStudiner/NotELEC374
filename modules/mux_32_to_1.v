@@ -24,6 +24,7 @@ module mux_32_to_1 (
        input wire [31:0] data_21 ,
        input wire [31:0] data_22,
        input wire [31:0] data_23,
+       input wire [31:0] data_25,
        input wire clk
 );
 
@@ -53,7 +54,8 @@ case(select)
      19 : bus_contents <=data_19;
      21 : bus_contents <=data_21;
      22 : bus_contents <=data_22;
-     23 : bus_contents <=data_23;
+     23 : bus_contents<=data_23;
+     25: bus_contents<=data_25;
      default: begin end
      //default: mux_out<=6969;
 endcase

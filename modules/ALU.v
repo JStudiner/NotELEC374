@@ -1,7 +1,7 @@
 module ALU #(parameter word_size =32)(
     input wire [31:0] A,
     input wire [31:0] B,
-    input wire [4:0] ALU_Sel,
+    input wire [5:0] ALU_Sel,
     output reg [31:0] ALU_low,
     output reg [31:0] ALU_high,
     output wire CarryOut,
@@ -10,16 +10,11 @@ module ALU #(parameter word_size =32)(
 reg [63:0] ALU_Out;
 wire [63:0] Booth_out;
 Booth BoothMod(A,B,Booth_out,clk);
-
 reg [31:0] temp;
 reg [1:0] last;
 integer i;
-
-
 always @(clk)
-
  begin
-    
      case(ALU_Sel)
      0 : ALU_Out <= A + B; // addition
      1 : ALU_Out <= B - A; // Subtraction
