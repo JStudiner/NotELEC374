@@ -1,7 +1,5 @@
 
-
-
-module reg_32bit(
+module reg_32bit#(parameter val=0) (
     input wire clk,
     input wire clr,
     input wire enable, 
@@ -15,7 +13,8 @@ module reg_32bit(
         else if(enable) begin
             q[31:0]<=d[31:0];
         end
-    end 
+    end
+    initial q=val; 
 endmodule
 
 

@@ -4,7 +4,8 @@ output reg[15:0] RegIn,
 output reg[15:0] RegOut,
 output reg[31:0] C_sign_extended);
 reg outSig;
-reg[3:0] A,B,C,D;
+reg[3:0] A,B,C;
+reg [15:0]D;
 reg[3:0]Ra,Rb,Rc;
 wire [15:0]data_out;
 decode_4_16 decode(data_out,D,clk);
@@ -18,7 +19,7 @@ always @(posedge clk) begin
     D<=A|B|C;
     if(Instruction[18]<=1)begin
         C_sign_extended<={4'h1FFF,Instruction[18:0]};
-    end.
+    end
     else begin
         C_sign_extended<={4'h0000,Instruction[18:0]};
     end

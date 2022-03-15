@@ -11,12 +11,13 @@ module datapath(
     input wire clr,
     input wire [31:0] reg_enable,
     input wire incPC,
-    input wire Gra,Grb,Grc,Rin,Rout,Baout,
+    input wire Gra,Grb,Grc,Rin,Rout,BAout,
     input wire conIn
 );
     //signals for select and encode
     //enable
-    wire [15:0] RegIn;
+    wire [31:0] C_sign_extended;
+    wire [15:0] regIn;
     //enc input (i)
     wire [15:0] RegOut;
     wire[31:0] r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,
@@ -28,7 +29,7 @@ module datapath(
     //mux stuff
     wire [31:0] dummyZLow, dummyZHigh;
     mux_32_to_1 MUX(bus_contents,S,r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
-    HI_data_out,LO_data_out,dummyZHigh,Zlow_data_out,IR_data_out,MDR_data_out,MAR_data_out,clk);
+    HI_data_out,LO_data_out,dummyZHigh,Zlow_data_out,IR_data_out,MAR_data_out,MDR_data_out,C_sign_extended,clk);
     //MDR stuff
     wire [31:0] MdMUXout;
     mux_2_to_1 MDMUX(MdMUXout,bus_contents,Mdatain,read);
@@ -39,10 +40,10 @@ module datapath(
     wire ALU_carry_out;
     ALU alu(Y_data_out,bus_contents,ALU_Sel,Zlow_data_out,Zhigh_data_out,ALU_carry_out,clk);
     //PC Register
-    PC_reg PC(clk, clr, reg_enable[20], incPC, bus_contents, PC_data_out);
+    PC_reg #(1) PC(clk, clr, reg_enable[20], incPC, bus_contents, PC_data_out);
     //General Purpose Registers
 
-    reg_32bit R1(clk, clr, regIn[1], bus_contents, r1_data_out);
+    reg_32bit #(20) R1(clk, clr, regIn[1], bus_contents, r1_data_out);
     reg_32bit R2(clk, clr, regIn[2], bus_contents, r2_data_out);
     reg_32bit R3(clk, clr, regIn[3], bus_contents, r3_data_out);
     reg_32bit R4(clk, clr, regIn[4], bus_contents, r4_data_out);
@@ -70,10 +71,9 @@ module datapath(
     //RAM stuff
     ram Ram(read,write,MAR_data_out,MDR_data_out,Mdatain,clk);
     //Select and Encode Stuff
-    wire [31:0] C_sign_extended;
     SelectAndEncode SAE(Gra,Grb,Grc,Rin,Rout,BAout,clk,IR_data_out,RegIn,RegOut,C_sign_extended);
     //Updated R0
-    R0_reg R0(clk, clr, regIn[0],BAout,bus_contents, r0_data_out);
+    R0_reg #(25) R0(clk, clr, regIn[0],BAout,bus_contents, r0_data_out);
     //CONFF
     wire CONFFOut;
     CONFF conff(IR_data_out,conIn,CONFFOut,bus_contents,clk);

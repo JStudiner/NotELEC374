@@ -22,14 +22,15 @@ always @(posedge clk) begin
         isZero<=0;
     end
     bit31<=IR[31];
-    A<=isZero!;
-    B<=bit31!;
+    A<=!isZero;
+    B<=!bit31;
     C<=Decoded[0]&isZero;
     D<=Decoded[1]&A;
     E<=Decoded[2]&B;
     F<=Decoded[3]&bit31;
+    G<=C|D|E|F;
     if(conIn)begin
-        Q<=F;
+        Q<=G;
     end
 end
 endmodule

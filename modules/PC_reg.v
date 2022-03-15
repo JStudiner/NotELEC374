@@ -1,4 +1,4 @@
-module PC_reg(
+module PC_reg#(parameter val)(
     input wire clk,
     input wire clr,
     input wire enable,
@@ -17,6 +17,7 @@ module PC_reg(
             q<=q+1;
         end
     end 
+    initial q=val;
 endmodule
 
 
