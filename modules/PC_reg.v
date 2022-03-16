@@ -10,14 +10,14 @@ module PC_reg#(parameter val)(
         if (clr) begin
             q[31:0] <= 32'b0;
         end
-        else if(enable) begin
-            q[31:0]<=d[31:0];
+        else if(incPC) begin
+            q[31:0]<=q+1;
         end
-        if(incPC) begin
-            q<=q+1;
-        end
+    
     end 
+   
     initial q=val;
+    
 endmodule
 
 

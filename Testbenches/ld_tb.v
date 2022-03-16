@@ -27,7 +27,7 @@ datapath DUT(bus_contents,
     clr,
     reg_enable,
     incPC,
-    Gra,Grb,Grc,Rin,Rout,Baout,
+    Gra,Grb,Grc,Rin,Rout,BAout,
     conIn);
 //clock stuff
 reg[3:0] Present_state = Default; 
@@ -74,90 +74,90 @@ begin
 case (Present_state) // assert the required signals in each clock cycle 
 //initialize parameters
 Default: begin 
-enc_input<=0;
-reg_enable<=0;
-IncPC<=0;
-Grb<=0;
-BAout<=0;
-read<=0;
-Gra<=0;
-Rin<=0;
+   enc_input<=0;
+   reg_enable<=0;
+   incPC<=0;
+   Grb<=0;
+   BAout<=0;
+   read<=0;
+   Gra<=0;
+   Rin<=0;
 end
 T0: begin 
-enc_input[20]<=1;
-reg_enable[23]<=1;
+   enc_input[20]<=1;
+   reg_enable[23]<=1;
 #25
-enc_input[20]<=0;
-reg_enable[23]<=0;
-incPC<=1;
-reg_enable[19]<=1;
+   enc_input[20]<=0;
+   reg_enable[23]<=0;
+   incPC<=1;
+   reg_enable[19]<=1;
 #15
-incPC<=0;
-reg_enable[19]<=0;
+   incPC<=0;
+   reg_enable[19]<=0;
 end
 T1: begin 
-enc_input[19]<=1;
-read<=1;
-reg_enable[20]<=1;
+   enc_input[19]<=1;
+   read<=1;
+   reg_enable[20]<=1;
 #25
-enc_input[19]<=0;
-reg_enable[20]<=0;
+   enc_input[19]<=0;
+   reg_enable[20]<=0;
 #10
-reg_enable[22]<=1;
+   reg_enable[22]<=1;
 #15
-read<=0;
-reg_enable[22]<=0;
+   read<=0;
+   reg_enable[22]<=0;
 end 
 T2: begin 
-enc_input[22]<=1;
-reg_enable[21]<=1;
+   enc_input[22]<=1;
+   reg_enable[21]<=1;
 #25
-enc_input[22]<=0;
-reg_enable[21]<=0;
+   enc_input[22]<=0;
+   reg_enable[21]<=0;
 end 
 T3: begin 
-Grb<=1;
-BAout<=1;
+   Grb<=1;
+   BAout<=1;
 #25
-reg_enable[24]<=1;
+   reg_enable[24]<=1;
 #25
-reg_enable[24]<=0;
-Grb<=0;
-BAout<=0;
+   reg_enable[24]<=0;
+   Grb<=0;
+   BAout<=0;
 end 
 T4: begin 
-enc_input[25]<=1;
+   enc_input[25]<=1;
 #25
-ALU_Sel<=0;
-enc_input[25]<=0;
+   ALU_Sel<=0;
+   enc_input[25]<=0;
 #25
-reg_enable[19]<=1;
+   reg_enable[19]<=1;
 #15
-reg_enable[19]<=0;
+   reg_enable[19]<=0;
 end    
 T5: begin 
-enc_input[19]<=1;
-reg_enable[23]<=1;
+   enc_input[19]<=1;
+   reg_enable[23]<=1;
 #25
-enc_input[19]<=0;
-reg_enable[19]<=0;
+   enc_input[19]<=0;
+   reg_enable[19]<=0;
 end  
 T6: begin 
-read<=1;
+   read<=1;
 #35
-reg_enable[22]<=1;
+   reg_enable[22]<=1;
 #25
-reg_enable[22]<=0;
+   reg_enable[22]<=0;
 end 
 T7: begin 
-enc_input[22]<=1;
-Gra<=1;
-Rin<=1;
+   enc_input[22]<=1;
+   Gra<=1;
+   Rin<=1;
 #25
-enc_input[22]<=0;
+   enc_input[22]<=0;
 #25
-Gra<=0;
-Rin<=0;
+   Gra<=0;
+   Rin<=0;
 end 
 endcase
 end
