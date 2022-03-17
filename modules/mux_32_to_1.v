@@ -25,6 +25,8 @@ module mux_32_to_1 (
        input wire [31:0] data_22,
        input wire [31:0] data_23,
        input wire [31:0] data_25,
+       input wire [31:0] data_26,
+
        input wire clk
 );
 

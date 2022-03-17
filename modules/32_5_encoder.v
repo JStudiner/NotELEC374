@@ -16,6 +16,8 @@ case(i)
 32 'h400000: S<=5'b10110;
 32 'h800000: S<=5'b10111;
 32 'h2000000: S<=5'b11001;
+32 'h2000000: S<=5'b11010;
+
 default: begin end
 endcase
 case(RegIn)

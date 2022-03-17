@@ -12,12 +12,14 @@ module datapath(
     input wire [31:0] reg_enable,
     input wire incPC,
     input wire Gra,Grb,Grc,Rin,Rout,BAout,
-    input wire conIn
+    input wire conIn,
+    input wire ConFFout
 );
     //signals for select and encode
     //enable
     wire [31:0] C_sign_extended;
     wire [15:0] regIn;
+
     //enc input (i)
     wire [15:0] RegOut;
     wire[31:0] r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,
@@ -29,7 +31,7 @@ module datapath(
     //mux stuff
     wire [31:0] dummyZLow, dummyZHigh;
     mux_32_to_1 MUX(bus_contents,S,r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
-    HI_data_out,LO_data_out,dummyZHigh,Zlow_data_out,IR_data_out,MAR_data_out,MDR_data_out,C_sign_extended,clk);
+    HI_data_out,LO_data_out,dummyZHigh,Zlow_data_out,IR_data_out,MAR_data_out,MDR_data_out,C_sign_extended, ConFFOut, clk);
     //MDR stuff
     wire [31:0] MdMUXout;
     mux_2_to_1 MDMUX(MdMUXout,bus_contents,Mdatain,read);
@@ -75,7 +77,6 @@ module datapath(
     //Updated R0
     R0_reg #(25) R0(clk, clr, regIn[0],BAout,bus_contents, r0_data_out);
     //CONFF
-    wire CONFFOut;
     CONFF conff(IR_data_out,conIn,CONFFOut,bus_contents,clk);
     //inport
     wire [31:0] Inport1DataIn;
