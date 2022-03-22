@@ -6,18 +6,23 @@ module PC_reg#(parameter val)(
     input wire [31:0] d,
     output reg [31:0] q
 );
-    always@(clk) begin
-        if (clr) begin
-            q[31:0] <= 32'b0;
-        end
-        else if(incPC) begin
-            q[31:0]<=q+1;
-        end
+    initial begin
+        q<=val;
+        
+    end
     
+
+always@(posedge clk) begin
+    
+    if (clr) begin
+        q[31:0] <= 32'b0;
+    end else if(incPC)begin
+    q<=q+1;
+    end
+    else if(enable)begin
+    q<=d;
+    end
     end 
-   
-    initial q=val;
-    
 endmodule
 
 

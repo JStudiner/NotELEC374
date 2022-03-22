@@ -1,4 +1,3 @@
-
 module reg_32bit#(parameter val=0) (
     input wire clk,
     input wire clr,
@@ -6,6 +5,8 @@ module reg_32bit#(parameter val=0) (
     input wire [31:0] d,
     output reg [31:0] q
 );
+initial begin q<=val; 
+end
     always@(clk) begin
         if (clr) begin
             q[31:0] <= 32'b0;
@@ -14,7 +15,7 @@ module reg_32bit#(parameter val=0) (
             q[31:0]<=d[31:0];
         end
     end
-    initial q=val; 
+    
 endmodule
 
 

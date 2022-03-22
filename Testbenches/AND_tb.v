@@ -32,9 +32,6 @@ always
       begin
       #10 Clock = ~ Clock; 
       end
-      
-//always
-     // #10 Clock = ~ Clock; 
 always @(posedge Clock)  // finite state machine; if clock rising-edge 
 if(flag==3)
    begin 

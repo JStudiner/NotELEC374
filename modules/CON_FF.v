@@ -2,9 +2,9 @@ module CONFF (
     input [31:0] IR,
     input conIn,
     output reg Q,
-    input [31:0] bus_contents,
-    input clk
-);
+    input wire [31:0] bus_contents,
+    input  wire clk
+); 
 reg isZero;
 wire [3:0] Decoded;
 reg bit31;

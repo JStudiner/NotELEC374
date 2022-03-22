@@ -1,4 +1,7 @@
-module SelectAndEncode(input Gra,Grb,Grc,Rin,Rout,BAout,clk,
+module SelectAndEncode(
+input wire[3:0] Gra,Grb,Grc,
+input wire Rin,Rout,BAout,
+input wire clk,
 input [31:0] Instruction,
 output reg[15:0] RegIn, 
 output reg[15:0] RegOut,
@@ -9,7 +12,7 @@ reg [15:0]D;
 reg[3:0]Ra,Rb,Rc;
 wire [15:0]data_out;
 decode_4_16 decode(data_out,D,clk);
-always @(posedge clk) begin
+always @(clk) begin
     Ra<=Instruction[26:23];
     A<=Ra&Gra;
     Rb<=Instruction[22:19];
@@ -18,10 +21,12 @@ always @(posedge clk) begin
     C<=Rc&Grc;
     D<=A|B|C;
     if(Instruction[18]<=1)begin
-        C_sign_extended<={4'h1FFF,Instruction[18:0]};
+        C_sign_extended[31:19]<=13'b1111111111111;
+        C_sign_extended[18:0]<=Instruction[18:0];
     end
     else begin
-        C_sign_extended<={4'h0000,Instruction[18:0]};
+        C_sign_extended[31:19]<=13'b0000000000000;
+        C_sign_extended[18:0]<=Instruction[18:0];    
     end
 end
 always @(D) begin

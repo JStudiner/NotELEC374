@@ -1,4 +1,4 @@
-module inputUnit(input wire clr,clk,strobe,input wire [31:0] D,output reg [31:0] Q);
+module inputUnit(input wire clr,input wire clk,strobe,input wire [31:0] D,output reg [31:0] Q);
 always @(posedge strobe) begin
     if(strobe)begin
         Q<=D;
