@@ -1,7 +1,14 @@
-module inputUnit(input wire clr,input wire clk,strobe,input wire [31:0] D,output reg [31:0] Q);
-always @(posedge strobe) begin
-    if(strobe)begin
-        Q<=D;
+module inputUnit#(parameter val=0)(input wire clr,input wire clk,input wire strobe,output reg [31:0] Q,output reg inportEnable);
+reg [31:0] D;
+initial begin 
+    D<=val;
+end
+always @(clk) begin
+    if (strobe)begin
+        inportEnable<=1;
+    end
+    else begin
+        inportEnable<=0;
     end
     if(clr)begin
     Q<=0;

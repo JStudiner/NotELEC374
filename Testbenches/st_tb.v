@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-module ld_tb(input A,output B);
+module st_tb(input A,output B);
 //time control
 reg [3:0] flag;
 //parameters to the FSM
@@ -90,25 +90,24 @@ T0: begin
    enc_input[20]<=1;
 #25
   reg_enable[23]<=1;
+  reg_enable[19]<=1;
   incPC<=1;
-  #25
+#25
   incPC<=0;
    enc_input[20]<=0;
+   reg_enable[19]<=0;
  reg_enable[23]<=0;
   
 #25
    reg_enable[19]<=0;
 end
 T1: begin 
-   read<=1;
-   //getting the MDR
+read<=1;
 enc_input[19]<=1;
-   #5
-   
+#5
 reg_enable[20]<=1;
 #25
    enc_input[19]<=0;
-   reg_enable[20]<=0;
    reg_enable[22]<=1;
 #25
    read<=0;
@@ -124,23 +123,21 @@ T2: begin
    reg_enable[21]<=0;
 
 end 
-//setting Y to the constant value
+//send either 0 or the constant value in R1 to the Y register
 T3: begin 
- //0000 should be sent to the bus and the Y value should be set to 0
-   Grb<=1;
    BAout<=1;
+   Grb<=1;
 #45
 #25
-     reg_enable[24]<=1;
+  reg_enable[24]<=1;
    BAout<=0;
    Grb<=0;
 end
-//we shall fix this next
-//we want the ALU value to be sent to Z
+//Send C to the bus and add it to Y
 T4: begin 
+   
    enc_input[25]<=1;
-
-#10
+   #10
    reg_enable[24]<=0;
 #15
    ALU_Sel<=0;
@@ -162,26 +159,23 @@ T5: begin
    reg_enable[23]<=0;
 
 end  
-//We want the data at the memory address in MAR to go into the MDR
+//We want the R1 value to go into the MDR
 T6: begin 
-   read<=1;
-#35
-   reg_enable[22]<=1;
-#25
-   reg_enable[22]<=0;
+    Gra<=1;
+    Rout<=1;
+    #60
+    Rout<=0;
+    Gra<=0;
+    reg_enable[22]<=1;
+
 end 
-//we want the MDR value to go into R1
-T7: begin 
-   enc_input[22]<=1;
-   Gra<=1;
-   Rin<=1;
-#35
-   //its on da bus we need r1 enable to be 1
-   enc_input[22]<=0;
-#25
-   Gra<=0;
-   Rin<=0;
-   read<=0;
+//We want to store The MDR value in Ram at the specified address
+T7: 
+begin 
+#30
+ reg_enable[22]<=0;
+#20
+  write<=1;
 end 
 endcase
 end

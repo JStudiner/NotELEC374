@@ -22,8 +22,7 @@ case(d_in)
 12: tmp<=4'h1000;
 13: tmp<=4'h2000;
 14: tmp<=4'h4000;
-15: tmp<=4'h8000;
-default: tmp<=0;
+default: tmp<=4'h8000;;
 endcase
 end
 endmodule

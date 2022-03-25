@@ -3,7 +3,7 @@ module CONFF (
     input conIn,
     output reg Q,
     input wire [31:0] bus_contents,
-    input  wire clk
+    input wire clk
 ); 
 reg isZero;
 wire [3:0] Decoded;
@@ -13,9 +13,8 @@ reg [1:0] unDecoded;
 decode_2_4 decoder(Decoded,unDecoded,clk);
 always @(IR)begin
     unDecoded<=IR[20:19];
-    
 end
-always @(posedge clk) begin
+always @(clk) begin
     if(bus_contents==0)begin
         isZero<=1;
     end else begin

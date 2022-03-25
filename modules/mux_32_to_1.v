@@ -31,7 +31,7 @@ module mux_32_to_1 (
 );
 
 
-always @ (posedge clk)
+always @ (clk)
 begin
 case(select)
      0 : bus_contents <=data_0;

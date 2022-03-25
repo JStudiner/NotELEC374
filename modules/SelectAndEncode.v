@@ -20,7 +20,7 @@ always @(clk) begin
     Rc<=Instruction[18:15];
     C<=Rc&Grc;
     D<=A|B|C;
-    if(Instruction[18]<=1)begin
+    if(Instruction[18])begin
         C_sign_extended[31:19]<=13'b1111111111111;
         C_sign_extended[18:0]<=Instruction[18:0];
     end
@@ -28,43 +28,41 @@ always @(clk) begin
         C_sign_extended[31:19]<=13'b0000000000000;
         C_sign_extended[18:0]<=Instruction[18:0];    
     end
-end
-always @(D) begin
-    //setting Rin
-    RegIn[0]<=D[0]&Rin;
-    RegIn[1]<=D[1]&Rin;
-    RegIn[2]<=D[2]&Rin;
-    RegIn[3]<=D[3]&Rin;
-    RegIn[4]<=D[4]&Rin;
-    RegIn[5]<=D[5]&Rin;
-    RegIn[6]<=D[6]&Rin;
-    RegIn[7]<=D[7]&Rin;
-    RegIn[8]<=D[8]&Rin;
-    RegIn[9]<=D[9]&Rin;
-    RegIn[10]<=D[10]&Rin;
-    RegIn[11]<=D[11]&Rin;
-    RegIn[12]<=D[12]&Rin;
-    RegIn[13]<=D[13]&Rin;
-    RegIn[14]<=D[14]&Rin;
-    RegIn[15]<=D[15]&Rin;
+     //setting Rin
+    RegIn[0]<=data_out[0]&Rin;
+    RegIn[1]<=data_out[1]&Rin;
+    RegIn[2]<=data_out[2]&Rin;
+    RegIn[3]<=data_out[3]&Rin;
+    RegIn[4]<=data_out[4]&Rin;
+    RegIn[5]<=data_out[5]&Rin;
+    RegIn[6]<=data_out[6]&Rin;
+    RegIn[7]<=data_out[7]&Rin;
+    RegIn[8]<=data_out[8]&Rin;
+    RegIn[9]<=data_out[9]&Rin;
+    RegIn[10]<=data_out[10]&Rin;
+    RegIn[11]<=data_out[11]&Rin;
+    RegIn[12]<=data_out[12]&Rin;
+    RegIn[13]<=data_out[13]&Rin;
+    RegIn[14]<=data_out[14]&Rin;
+    RegIn[15]<=data_out[15]&Rin;
     //setting Rout
     outSig<=Rout|BAout;
-    RegOut[0]<=D[0]&outSig;
-    RegOut[1]<=D[1]&outSig;
-    RegOut[2]<=D[2]&outSig;
-    RegOut[3]<=D[3]&outSig;
-    RegOut[4]<=D[4]&outSig;
-    RegOut[5]<=D[5]&outSig;
-    RegOut[6]<=D[6]&outSig;
-    RegOut[7]<=D[7]&outSig;
-    RegOut[8]<=D[8]&outSig;
-    RegOut[9]<=D[9]&outSig;
-    RegOut[10]<=D[10]&outSig;
-    RegOut[11]<=D[11]&outSig;
-    RegOut[12]<=D[12]&outSig;
-    RegOut[13]<=D[13]&outSig;
-    RegOut[14]<=D[14]&outSig;
-    RegOut[15]<=D[15]&outSig;
+    RegOut[0]<=data_out[0]&outSig;
+    RegOut[1]<=data_out[1]&outSig;
+    RegOut[2]<=data_out[2]&outSig;
+    RegOut[3]<=data_out[3]&outSig;
+    RegOut[4]<=data_out[4]&outSig;
+    RegOut[5]<=data_out[5]&outSig;
+    RegOut[6]<=data_out[6]&outSig;
+    RegOut[7]<=data_out[7]&outSig;
+    RegOut[8]<=data_out[8]&outSig;
+    RegOut[9]<=data_out[9]&outSig;
+    RegOut[10]<=data_out[10]&outSig;
+    RegOut[11]<=data_out[11]&outSig;
+    RegOut[12]<=data_out[12]&outSig;
+    RegOut[13]<=data_out[13]&outSig;
+    RegOut[14]<=data_out[14]&outSig;
+    RegOut[15]<=data_out[15]&outSig;
     
 end
 endmodule
