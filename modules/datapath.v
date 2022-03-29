@@ -1,21 +1,26 @@
-module datapath(
-    input wire [31:0] bus_contents,
-    input wire [31:0] i,
-    input wire clk,
-    input wire [5:0] ALU_Sel,
-    input wire [31:0] Mdatain,
-    input wire read,
-    input wire write,
-    input wire clr,
-    input wire [31:0] reg_enable,
-    input wire incPC,
-    input wire[3:0] Gra,Grb,Grc,
-    input wire Rin,Rout,BAout,
-    input wire conIn,
-    input wire CONFFOut,
-    input wire outport1Enable,
-    input wire strobeInport1
+`timescale 1ns/10ps
+module datapath( input A,
+output reg B
 );
+    //initializing the clock
+    reg clk;
+    initial begin
+        clk = 0;
+    end
+    always begin
+        #10 clk = ~ clk; 
+    end
+    //initializing inputs for control unit
+    wire reset,stop;
+    wire CONFFOut;
+    wire [31:0]IR_data_out;
+    wire read,write,incPC,Rin,Rout,conIn,outport1Enable,strobeInport1,BAout,clr;
+    wire [3:0] Gra,Grb,Grc;
+    wire [31:0] enc_input,reg_enable;
+    wire [5:0] ALU_Sel;
+    //setting up the control unit
+    control_unit CU(clk,reset,stop,CONFFOut,IR_data_out,read,write,incPC,Gra,Grb,Grc,Rin,Rout,conIn,
+    outport1Enable,strobeInport1,BAout,clr,enc_input,reg_enable,ALU_Sel);
     //signals for select and encode
     //enable
     wire [31:0] C_sign_extended;
@@ -23,30 +28,31 @@ module datapath(
     //signals for inport
     wire [31:0] Inport1DataOut;
     wire inport1Enable;
-    //enc input (i)
     wire [15:0] regOut;
     wire[31:0] r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,
     r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
-    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MAR_data_out,Y_data_out,MDR_data_out;
+    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,MAR_data_out,Y_data_out,MDR_data_out;
     //encoder stuff
     wire [4:0] S;
-    encoder_32_5 ENC(S,i,regOut,inport1Enable,clk);
+    encoder_32_5 ENC(S,enc_input,regOut,inport1Enable,clk);
     //mux stuff
-    wire [31:0] dummyZLow, dummyZHigh;
+
+    wire [31:0] bus_contents;
     mux_32_to_1 MUX(bus_contents,S,r0_data_out,r1_data_out,r2_data_out,r3_data_out,r4_data_out,r5_data_out,r6_data_out,r7_data_out,r8_data_out,r9_data_out,r10_data_out, r11_data_out,r12_data_out,r13_data_out,r14_data_out,r15_data_out,
-HI_data_out,LO_data_out,dummyZHigh,Zlow_data_out,PC_data_out,IR_data_out,MDR_data_out,MAR_data_out,C_sign_extended,Inport1DataOut,clk);
+    HI_data_out,LO_data_out,Zhigh_data_out,Zlow_data_out,PC_data_out,IR_data_out,MDR_data_out,MAR_data_out,C_sign_extended,Inport1DataOut,clk);
 
     //MDR stuff
     wire [31:0] MdMUXout;
+    wire [31:0] Mdatain;
     mux_2_to_1 MDMUX(MdMUXout,bus_contents,Mdatain,read,clk);
     reg_32bit #(16'hFFFF) MDR(clk,clr,reg_enable[22],MdMUXout,MDR_data_out);
     reg_32bit #(16'hFFFF) MAR(clk, clr, reg_enable[23], bus_contents, MAR_data_out);
     //ALU stuff
     wire [31:0] ALU_Low_Out,ALU_High_Out;
     wire ALU_carry_out;
-    ALU alu(Y_data_out,bus_contents,ALU_Sel,Zlow_data_out,Zhigh_data_out,ALU_carry_out,clk);
+    ALU alu(Y_data_out,bus_contents,ALU_Sel,ALU_Low_Out,ALU_High_Out,ALU_carry_out,clk);
     //PC Register
-    PC_reg #(7) PC(clk, clr, reg_enable[20], incPC, bus_contents, PC_data_out);
+    PC_reg #(0) PC(clk, clr, reg_enable[20], incPC, bus_contents, PC_data_out);
     //General Purpose Registers]
     reg_32bit #(16'h5a) R1(clk, clr, regIn[1], bus_contents, r1_data_out);
     reg_32bit#(16'h1) R2(clk, clr, regIn[2], bus_contents, r2_data_out);

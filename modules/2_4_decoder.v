@@ -8,10 +8,10 @@ end
 always @(clk)
 begin
 case(d_in)
-0: tmp <=1'h1;
-1: tmp<=1'h2;
-2: tmp<=1'h4;
-3: tmp<=1'h8;
+0: tmp <=4'h1;
+1: tmp<=4'h2;
+2: tmp<=4'h4;
+3: tmp<=4'h8;
 default: begin end
 endcase
 end

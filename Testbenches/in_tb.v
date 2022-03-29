@@ -11,7 +11,7 @@ reg [5:0] ALU_Sel;
 wire [31:0] Mdatain;
 reg read,write;
 wire clr;
-wire [31:0] reg_enable;
+reg [31:0] reg_enable;
 reg incPC;
 reg [3:0] Gra,Grb,Grc;
 reg Rin,Rout,BAout;

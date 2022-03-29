@@ -20,7 +20,7 @@ always @(clk) begin
     end else begin
         isZero<=0;
     end
-    bit31<=IR[31];
+    bit31<=bus_contents[31];
     A<=!isZero;
     B<=!bit31;
     C<=Decoded[0]&isZero;

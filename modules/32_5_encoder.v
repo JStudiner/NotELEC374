@@ -9,9 +9,9 @@ reg [31:0]comboSig;
 always @(clk)
 begin
 comboSig[15:0]<=RegIn;
-comboSig[24:16]<=i[31:16];
-comboSig[25]<=inport1Enable;
-comboSig[31:25]<=0;
+comboSig[25:16]<=i[25:16];
+comboSig[26]<=inport1Enable;
+comboSig[31:27]<=0;
 case(comboSig)
 32'h01: S<=5'b00000;
 32'h02: S<=5'b00001;

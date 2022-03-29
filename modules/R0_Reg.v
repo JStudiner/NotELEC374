@@ -11,17 +11,18 @@ module R0_reg#(parameter val)(
 reg [31:0] q;
 reg [31:0] temp;
 reg A;
-initial BusMuxIn_R0=val;
+initial begin
+    BusMuxIn_R0=val;
+    q=val;
+end
 always@(clk) begin
         if (clr) begin
             q[31:0] <= 32'b0;
         end
         else if(R0in) begin
-            q[31:0]<=d[31:0];
+            q[31:0]<=1;
         end
         A<= !BAout;
         BusMuxIn_R0<= A & q;
-        
-    end 
-
+    end
 endmodule
